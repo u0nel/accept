@@ -14,6 +14,9 @@ type AcceptExt struct {
 }
 
 func ServeType(servable []string, acceptheader string) string {
+	if acceptheader == "" {
+		return servable[0] // we'll assume we are able to serve _something_
+	}
 	requested := ParseHeader(acceptheader)
 	for _, acpt := range requested {
 		for _, s := range servable {

@@ -13,8 +13,8 @@ type AcceptExt struct {
 	Params     map[string]string
 }
 
-func ServeType(servable []string, header string) string {
-	requested := ParseHeader(header)
+func ServeType(servable []string, acceptheader string) string {
+	requested := ParseHeader(acceptheader)
 	for _, acpt := range requested {
 		for _, s := range servable {
 			if Matches(acpt.MediaRange, s) {
@@ -54,7 +54,20 @@ func Matches(matcher string, absolute string) bool {
 	if matcherspl[1] == "*" {
 		return true
 	}
-	return matcherspl[1] == absolutspl[1]
+	if matcherspl[1] == absolutspl[1] {
+		return true
+	}
+
+	// "json" should also match "ld+json" or "activity+json"
+	absplit := strings.Split(absolutspl[1], "+")
+	if len(absplit) == 1 {
+		return false
+	}
+
+	if matcherspl[1] == absplit[1] {
+		return true
+	}
+	return false
 }
 
 func Sort(items []AcceptExt) {

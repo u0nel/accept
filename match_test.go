@@ -16,7 +16,10 @@ func TestMatches(t *testing.T) {
 		{"text/*", "text/html", true},
 		{"text/html", "text/html", true},
 		{"text/*", "application/json", false},
-		{"text/plain", "text/html", false}}
+		{"text/plain", "text/html", false},
+		{"application/json", "application/ld+json", true},
+		{"application/activity+json", "application/json", false},
+	}
 	for i, test := range tests {
 		if Matches(test.Matcher, test.Absolute) != test.Result {
 			t.Errorf("Test %d failed. %v %v %v", i, test.Matcher, test.Absolute, test.Result)

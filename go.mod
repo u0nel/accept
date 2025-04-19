@@ -1,3 +1,3 @@
-module github.com/u0nel/accept
+module codeberg.org/uonel/accept
 
 go 1.18
